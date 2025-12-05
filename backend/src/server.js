@@ -14,6 +14,9 @@ app.use(express.json());
 // Health check
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
+const vendorRoutes = require("./routes/vendorRoutes");
+app.use("/api/vendors", vendorRoutes);
+
 // Create RFP from natural language
 app.post("/api/rfps/from-text", async (req, res) => {
   try {
