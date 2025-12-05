@@ -7,7 +7,10 @@ const client = new OpenAI({
 
 async function parseRfpFromText(text) {
   const prompt = `
-    Convert this procurement request into structured JSON:
+    Convert this procurement request into structured JSON only. 
+    DO NOT wrap the JSON in markdown code blocks.
+
+    Required format:
     {
       "title": string,
       "description": string,
@@ -33,7 +36,12 @@ async function parseRfpFromText(text) {
     messages: [{ role: "user", content: prompt }],
   });
 
-  const content = response.choices[0].message.content;
+  let content = response.choices[0].message.content.trim();
+
+  // 🔥 Remove markdown code fences if present
+  if (content.startsWith("```")) {
+    content = content.replace(/```json|```/g, "").trim();
+  }
 
   try {
     return JSON.parse(content);

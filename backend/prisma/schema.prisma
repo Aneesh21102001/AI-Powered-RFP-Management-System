@@ -7,26 +7,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model RFP {
+model Rfp {
   id           Int      @id @default(autoincrement())
   title        String
   description  String
-  structured   String   // JSON stored as string
+  structured   String
   totalBudget  Float?
   deliveryDays Int?
   createdAt    DateTime @default(now())
 
-  lineItems    RFPLineItem[]
+  lineItems    RfpLineItem[]
   proposals    Proposal[]
 }
 
-model RFPLineItem {
+model RfpLineItem {
   id        Int      @id @default(autoincrement())
   name      String
   qty       Int
-  specs     String?  // JSON stored as string
+  specs     String?
   rfpId     Int
-  rfp       RFP      @relation(fields: [rfpId], references: [id])
+  rfp       Rfp      @relation(fields: [rfpId], references: [id])
 }
 
 model Vendor {
@@ -45,9 +45,9 @@ model Proposal {
   rfpId       Int
   price       Float?
   terms       String?
-  structured  String?  // JSON stored as string
+  structured  String?
   createdAt   DateTime @default(now())
 
   vendor      Vendor   @relation(fields: [vendorId], references: [id])
-  rfp         RFP      @relation(fields: [rfpId], references: [id])
+  rfp         Rfp      @relation(fields: [rfpId], references: [id])
 }

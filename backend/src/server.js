@@ -5,7 +5,7 @@ const express = require('express');
 const cors = require('cors');
 
 const { parseRfpFromText } = require("./aiService");
-const prisma = require("./prismaClient").default;
+const prisma = require("./prismaClient");   // <-- FIXED HERE
 
 const app = express();
 app.use(cors());
@@ -44,6 +44,6 @@ app.post("/api/rfps/from-text", async (req, res) => {
   }
 });
 
-// Start server AFTER routes
+// Start server
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server listening on ${port}`));
